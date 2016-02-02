@@ -1,5 +1,5 @@
 .idea
-realTime.iml
+*.iml
 temp
 libs
 
