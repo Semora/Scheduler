@@ -31,13 +31,6 @@ public class RateMonotonicTest {
         this.periodicScheduler = new PeriodicScheduler();
     }
 
-
-
-    @Test
-    public void scheduleEmptyTaskSet() throws Exception {
-        this.periodicScheduler.schedule(this.rm);
-    }
-
     @Test
     public void schedule() throws Exception {
         PeriodicTask pt = new PeriodicTask(7,"task_1",5,2);
@@ -47,8 +40,8 @@ public class RateMonotonicTest {
         ts.addTask(pt);
         ts.addTask(pt1);
         this.rm.setPeriodicTaskSet(ts);
-        this.periodicScheduler.setPeriodicTaskSet(ts);
-        this.periodicScheduler.schedule(this.rm);
+
+        this.periodicScheduler.schedule(this.rm, ts);
         TimeLine timeLine = this.periodicScheduler.getMainTimeLine();
         for (scheduler.Process p : timeLine.getExecutionList()){
             if (p != null)

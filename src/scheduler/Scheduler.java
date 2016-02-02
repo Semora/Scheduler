@@ -11,7 +11,7 @@ abstract public class Scheduler {
     private Process running;
     private TimeLine mainTimeLine;
 
-    public void schedule(Schedulable schedulable) {
+    protected void schedule(Schedulable schedulable) {
         this.start();
         while(!this.isFinished()) {
             this.updateReadyQueue();

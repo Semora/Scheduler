@@ -27,7 +27,12 @@ public class PeriodicScheduler extends Scheduler {
         periodicReadyQueue = new ArrayList<>();
     }
 
-    public void setPeriodicTaskSet(TaskSet<PeriodicTask> periodicTaskSet) {
+    public void schedule(Schedulable schedulable, TaskSet<PeriodicTask> periodicTaskSet) {
+        this.setPeriodicTaskSet(periodicTaskSet);
+        this.schedule(schedulable);
+    }
+
+    private void setPeriodicTaskSet(TaskSet<PeriodicTask> periodicTaskSet) {
         this.periodicTaskSet = periodicTaskSet;
 
         if (periodicTaskSet.getTasks().size() == 0) {
