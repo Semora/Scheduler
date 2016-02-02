@@ -1,6 +1,7 @@
 package model.task;
 
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * Created by Razi on 1/31/2016.
@@ -35,4 +36,7 @@ abstract public class Task implements Serializable{
     public int getExecutionTime() {
         return executionTime;
     }
+
+    abstract public void setValueByName(String name, String value);
+    abstract public List<String> getValuesByName(List<String>names);
 }

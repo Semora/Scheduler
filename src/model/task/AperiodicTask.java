@@ -1,6 +1,10 @@
 package model.task;
 
+import constants.TaskFieldNames;
+
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Razi on 1/31/2016.
@@ -52,5 +56,44 @@ public class AperiodicTask extends Task implements Serializable{
         String out = "";
         out += getColor() + "\t\t" + getName() + "\t\t" + getArrivalTime() + "\t\t" + getExecutionTime() + "\t\t" + getDeadline();
         return out;
+    }
+
+    @Override
+    public void setValueByName(String name, String value) {
+        switch (name) {
+            case TaskFieldNames.NAME:
+                this.setName(value);
+                break;
+            case TaskFieldNames.EXECUTION_TIME:
+                this.setExecutionTime(Integer.parseInt(value));
+                break;
+            case TaskFieldNames.ARRIVAL_TIME:
+                this.arrivalTime = Integer.parseInt(value);
+                break;
+            case TaskFieldNames.DEADLINE:
+                this.deadline = Integer.parseInt(value);
+                break;
+        }
+    }
+
+    public List<String> getValuesByName(List<String> names) {
+        List<String> values = new ArrayList<>();
+        for (String name: names) {
+            switch (name) {
+                case TaskFieldNames.NAME:
+                    values.add(this.getName());
+                    break;
+                case TaskFieldNames.EXECUTION_TIME:
+                    values.add(String.valueOf(this.getExecutionTime()));
+                    break;
+                case TaskFieldNames.ARRIVAL_TIME:
+                    values.add(String.valueOf(this.getArrivalTime()));
+                    break;
+                case TaskFieldNames.DEADLINE:
+                    values.add(String.valueOf(this.getDeadline()));
+                    break;
+            }
+        }
+        return values;
     }
 }
