@@ -53,7 +53,7 @@ public class PeriodicScheduler extends Scheduler {
     void updateReadyQueue() {
         for(PeriodicTask pt : this.periodicTaskSet.getTasks()) {
             if(this.getFakeTime() % pt.getPeriod() == 0) {
-                int number = this.getFakeTime() / pt.getPeriod() + 1;
+                int number = this.getFakeTime() / pt.getPeriod();
                 this.periodicReadyQueue.add(new PeriodicProcess(pt, number));
             }
         }
@@ -61,8 +61,8 @@ public class PeriodicScheduler extends Scheduler {
 
     Process getHighestPriorityProcess(Schedulable schedulable) {
         List<PeriodicProcess> periodicProcesses = ((ArrayList<PeriodicProcess>)((ArrayList<PeriodicProcess>)this.periodicReadyQueue).clone());
-        if (this.getRunnig() != null) {
-            periodicProcesses.add((PeriodicProcess)this.getRunnig());
+        if (this.getRunning() != null) {
+            periodicProcesses.add((PeriodicProcess)this.getRunning());
         }
         if (periodicProcesses.size() == 0) {
             return null;
@@ -71,7 +71,7 @@ public class PeriodicScheduler extends Scheduler {
     }
     
     void removeProcessFromReadyQueue(Process process) {
-        periodicReadyQueue.remove(process);
+        periodicReadyQueue.remove((PeriodicProcess)process);
     }
     void addProcessToReadyQueue(Process process) {
         periodicReadyQueue.add((PeriodicProcess)process);

@@ -1,12 +1,15 @@
 package scheduler;
 
+import model.result.TimeLine;
+
 /**
  * Created by Razi on 2/1/2016.
  */
 abstract public class Scheduler {
 
     private int fakeTime;
-    private Process runnig;
+    private Process running;
+    private TimeLine mainTimeLine;
 
     public void schedule(Schedulable schedulable) {
         this.start();
@@ -22,24 +25,32 @@ abstract public class Scheduler {
 
     protected void start() {
         this.fakeTime = 0;
-        this.runnig = null;
+        this.running = null;
+        this.mainTimeLine = new TimeLine();
     }
 
     void executeOneTimeUnit(Process nextProcess) {//TODO what if nextProcess was null -> idle
-        if(this.runnig == null) {
-            this.runnig = nextProcess;
+        if(this.running == null) {
+            if (nextProcess != null) {
+                this.running = nextProcess;
+                this.removeProcessFromReadyQueue(nextProcess);
+            }
         }
-        else if (!this.runnig.equals(nextProcess)) {
+        else if (!this.running.equals(nextProcess)) {
             //TODO Preemption
-            this.addProcessToReadyQueue(this.runnig);
+            this.addProcessToReadyQueue(this.running);
             this.removeProcessFromReadyQueue(nextProcess);
-            this.runnig = nextProcess;
+            this.running = nextProcess;
         }
 
-        this.runnig.decreaseRemainingTime();//TODO Execute
+        this.mainTimeLine.getExecutionList().add(this.running);
 
-        if(this.runnig.isDone()) {
-            this.runnig = null;
+        if (this.running == null) {
+            return;
+        }
+        this.running.decreaseRemainingTime();//TODO Execute
+        if(this.running.isDone()) {
+            this.running = null;
         }
 
     }
@@ -48,13 +59,17 @@ abstract public class Scheduler {
         return fakeTime;
     }
 
-    public Process getRunnig() {
-        return runnig;
+    public Process getRunning() {
+        return running;
+    }
+
+    public TimeLine getMainTimeLine() {
+        return mainTimeLine;
     }
 
     abstract boolean isFinished();
     abstract void updateReadyQueue();
-    abstract Process getHighestPriorityProcess(Schedulable schedulable);//TODO
+    abstract Process getHighestPriorityProcess(Schedulable schedulable);
     abstract void removeProcessFromReadyQueue(Process process);
     abstract void addProcessToReadyQueue(Process process);
 }
