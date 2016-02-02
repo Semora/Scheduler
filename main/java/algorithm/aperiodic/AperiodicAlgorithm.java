@@ -4,8 +4,6 @@ import algorithm.Algorithm;
 import model.task.AperiodicTask;
 import model.task.TaskSet;
 
-import java.util.AbstractCollection;
-
 /**
  * Created by Razi on 2/2/2016.
  */
